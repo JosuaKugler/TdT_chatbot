@@ -2,3 +2,4 @@ numpy
 python3-tk
 scikit-learn
 espeak
+pyttsx3
