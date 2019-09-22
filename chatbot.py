@@ -17,7 +17,7 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 import math
 import pyttsx3
-engine = pyttsx3.init()
+engine = pyttsx3.init("dummy")
 isPlayingPrimesGame = False
 isPlayingWealthGame = False
 
@@ -194,7 +194,6 @@ while(flag==True):
             colorprint(random.choice(INDIGNITY_RESPONSES))
     
     while isPlayingWealthGame == True:
-        Trumpmoney=random.randint(1000000,20000000)
         colorprint("Guess how rich I am!")
         inputTxt = input()
 
@@ -237,6 +236,7 @@ while(flag==True):
     elif(user_response == "wealth game"):
         colorprint("OK, let's play the wealth game! You have 25 tries for guessing my wealth.\nFor quitting type 'exit'.")
         isPlayingWealthGame = True
+        Trumpmoney=random.randint(1000000,20000000)
         points = 25
     elif(user_response!='bye'):
         if user_response == "satz von gong":
