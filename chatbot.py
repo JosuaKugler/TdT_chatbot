@@ -15,11 +15,9 @@ from stop_words import get_stop_words
 from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
-<<<<<<< HEAD
 import math
 
 isPlayingPrimesGame = False
-=======
 import pyttsx3
 engine = pyttsx3.init("dummy")
 
