@@ -16,22 +16,24 @@ from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
 import math
-
+import pyttsx3
+engine = pyttsx3.init("dummy")
 isPlayingPrimesGame = False
+isPlayingWealthGame = False
 
 warnings.filterwarnings('ignore')
 
 # Begrüßungen
-GREETING_INPUTS = ("hello", "hi")
-GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!", "hi", "hey", "what's up", "Good afternoon", "hello", "It's nice meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
+GREETING_INPUTS = ("hello", "hi", "good afternoon", "greetings", "servus")
+GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!", "hi", "hey", "what's up", "Good afternoon", "hello", "It's nice to meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
 
 # Beleidigungen
 INDIGNITY_INPUTS = ("motherfucker", "bitch", "cunt", "robot", "bot", "nigga", "stupid", "asshole", "fuck")
-INDIGNITY_RESPONSES = ["You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
+INDIGNITY_RESPONSES = ["'You do know you just attacked a Gold Star family?","I’m speaking with myself, number one, because I have a very good brain and I’ve said a lot of things.","My fingers are long and beautiful, as, it has been well been documented, are various other parts of my body","Sorry losers and haters, but my I.Q. is one of the highest—and you all know it! Please don't feel so stupid or insecure. It's not your fault""You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
 
 # Komplimente
 COMPLIMENT_INPUTS = ("nice", "sexy", "clever", "humanoid", "talented", "trumpy")
-COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost as amazing as Trump"]
+COMPLIMENT_RESPONSES = ["Let me tell you, I'm a really smart guy.","thanks", "You too", "You're almost as amazing as Trump", "I think I am, actually humble. I think I'm much more humble than you would understand","The beauty of me is that I'm very rich"]
 
 # Reaktionen
 REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
@@ -155,7 +157,7 @@ while(flag==True):
         e = random.randint(0,1)
         if e==0:
             number = 101
-            while prime(number):
+            while prime(number) or number % 3 == 0 or number % 5 == 0:
                 number = random.randint(100, 10000)* 2 + 1
         else:
             number = 100
@@ -167,7 +169,7 @@ while(flag==True):
             colorprint("Is " + str(number) + " a prime number?")
             inputTxt = input()
 
-            if inputTxt in ["yes", "no", "exit"]:
+            if inputTxt in ["yes", "no", "exit", "bye"]:
                 invalidInput = False
             else:
                 t = trivia(inputTxt)
@@ -178,6 +180,9 @@ while(flag==True):
         if inputTxt == "exit":
             isPlayingPrimesGame = False
             colorprint("OK, I've stopped the prime number game.")
+        if inputTxt == "bye":
+            isPlayingPrimesGame = False    
+            colorprint("OK, I've stopped the prime number game. For quitting type 'bye' again.")
         elif inputTxt == "yes" and prime(number) or inputTxt == "no" and not prime(number):
             points += 1
             colorprint("Correct! Your score is " + str(points) + ".")
@@ -185,13 +190,52 @@ while(flag==True):
             points -= 1
             colorprint("Wrong! Your score is " + str(points) + ".")
             colorprint(random.choice(INDIGNITY_RESPONSES))
+    
+    while isPlayingWealthGame == True:
+        Trumpmoney=random.randint(1000000,20000000)
+        colorprint("Guess how rich I am!")
+        inputTxt = input()
+
+        if inputTxt == "exit":
+            isPlayingWealthGame = False
+            colorprint("OK, I've stopped the wealth game. For quitting type 'bye' again.")
+            break
+        
+        if inputTxt == "bye":
+            isPlayingWealthGame = False
+            colorprint("OK, I've stopped the wealth game.")
+            break
+
+        if inputTxt == "" or inputTxt.isdigit() == False:
+            colorprint("Oh c'mon, just type in a number!")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+        elif int(inputTxt) < Trumpmoney:
+            points -= 1
+            colorprint("You mexicunt, it's much more! Your score is " + str(points) + ".")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+        elif int(inputTxt) > Trumpmoney:
+            points -= 1
+            colorprint("I had so much before the f***ing communists have stolen it! Your score is " + str(points) + ".")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+        else:
+            colorprint("You won! Please don't tell anyone that I don't pay any taxes! Your score was " + str(points) + ".")
+        
+
+        if points == 0:
+            colorprint("You're fired!")
+            isPlayingWealthGame = False
+            colorprint("You aren't playing the wealth game anymore.")
 
     user_response = input()
     user_response=user_response.lower()
     if(user_response == "prime number game"):
-        colorprint("OK, let's play the prime number game!")
+        colorprint("OK, let's play the prime number game!\nFor quitting type 'exit'.")
         isPlayingPrimesGame = True
         points = 0
+    elif(user_response == "wealth game"):
+        colorprint("OK, let's play the wealth game! You have 25 tries for guessing my wealth.\nFor quitting type 'exit'.")
+        isPlayingWealthGame = True
+        points = 25
     elif(user_response!='bye'):
         if user_response == "satz von gong":
             cols = ['cyan', 'green', 'red', 'blue', 'yellow', 'grey', 'white', 'magenta']
