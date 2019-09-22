@@ -73,8 +73,6 @@ def trivia(sentence):
     '''Wenn die Nutzereingabe ien Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
     gleiches gilt für Beleidigungen'''
     for word in sentence.split():
-        # if random.randint(1,10) <= 3:
-        #     return random.choice(["42","Satz von Gong","Möge Frau Karl... zurücktreten"])
         for reaction in range(len(REACTION_INPUTS)):
             if word.lower() in REACTION_INPUTS[reaction]:
                 return random.choice(REACTION_RESPONSES[reaction])
