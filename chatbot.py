@@ -82,14 +82,14 @@ def trivia(sentence):
         if word.lower() in INDIGNITY_INPUTS:
             return random.choice(INDIGNITY_RESPONSES)
 
-
 # Antwort Erzeugung
 def response(user_response):
-    stop_words = get_stop_words('german')
+    stop_words = get_stop_words('english')
     sent_tokens.append(user_response)
-    TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words)
+    TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words,ngram_range=(1, 10))
     tfidf = TfidfVec.fit_transform(sent_tokens)
     vals = cosine_similarity(tfidf[-1], tfidf)
+    
     idx=vals.argsort()[0][-2]
     flat = vals.flatten()
     flat.sort()
