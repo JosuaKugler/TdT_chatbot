@@ -34,6 +34,26 @@ COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost as amazing as Trump"
 REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
 REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPONSES]
 
+# Help
+HELP_INPUTS = "help"
+HELP_RESPONSES = "I am very good at interacting with humans. You may ask for \"greetings\", \"swears\" or \"compliments\" to get further information about my socialskills."
+
+# Help Begrüßungen
+GREETINGHELP_INPUTS = "greetings"
+GREETINGHELP_RESPONSES = "If you want me to greet you. First you will have to say something like \"Make America Great Again!!!\", \"Part of my beauty is that I am very rich!\", \"hi\", \"hey\", \"what's up\", \"Good afternoon\", \"hello\", \"It's nice to meet you\", \"Make America Great Again!!!\", \"Part of my beauty is that I am very rich!\""
+
+# Help Beleidigungen
+INDIGNITYHELP_INPUTS = "swears"
+INDIGNITYHELP_RESPONSES = "If you swear at me, I will fire back. Don't even think about saying something like: \"motherfucker\", \"bitch\", \"cunt\", \"robot\", \"bot\", \"nigga\", \"stupid\", \"asshole\" or \"fuck\""
+
+# Help Komplimente
+COMPLIMENTHELP_INPUTS = "compliments"
+COMPLIMENTHELP_RESPONSES = "I looove compliments. Please say something like \"nice\", \"sexy\", \"clever\", \"humanoid\", \"talented\" or \"trumpy\""
+
+# Hilfsreaktionen
+HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, COMPLIMENTHELP_INPUTS]
+HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES]
+
 # nltk.download('popular', quiet=True)
 
 # # Für den ersten Start, ansonsten auskommentieren
@@ -70,7 +90,7 @@ def LemNormalize(text):
 
 # Keyword Matching
 def trivia(sentence):
-    '''Wenn die Nutzereingabe ien Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
+    '''Wenn die Nutzereingabe in Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
     gleiches gilt für Beleidigungen'''
     for word in sentence.split():
         # if random.randint(1,10) <= 3:
@@ -78,7 +98,9 @@ def trivia(sentence):
         for reaction in range(len(REACTION_INPUTS)):
             if word.lower() in REACTION_INPUTS[reaction]:
                 return random.choice(REACTION_RESPONSES[reaction])
-
+        for Help in range(len(HELPREACTION_INPUTS)):
+            if word.lower() in HELPREACTION_INPUTS[Help]:
+                return HELPREACTION_RESPONSES[Help]
 
 # Antwort Erzeugung
 def response(user_response):
