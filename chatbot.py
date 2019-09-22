@@ -137,6 +137,8 @@ def response(user_response):
         return robo_response
 
 def colorprint(msg):
+    engine.say(msg)
+    engine.runAndWait()
     print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(msg, 'cyan'))
 
 def prime(number):
@@ -234,7 +236,7 @@ while(flag==True):
         isPlayingPrimesGame = True
         points = 0
     elif(user_response == "wealth game"):
-        colorprint("OK, let's play the wealth game! You have 25 tries for guessing my wealth.\nFor quitting type 'exit'.")
+        colorprint("OK, let's play the wealth game! You have 25 tries for guessing my wealth in dollars.\nFor quitting type 'exit'.")
         isPlayingWealthGame = True
         Trumpmoney=random.randint(1000000,20000000)
         points = 25
