@@ -1,6 +1,6 @@
 '''
 TRUMP - TextBot
-A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019 
+A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019
 based on an example script from Parul Pandey.
 '''
 import io
@@ -15,35 +15,65 @@ from stop_words import get_stop_words
 from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
+import math
+import pyttsx3
+engine = pyttsx3.init("dummy")
+isPlayingPrimesGame = False
+isPlayingWealthGame = False
 
 warnings.filterwarnings('ignore')
 
 # Begrüßungen
-GREETING_INPUTS = ("hello", "hi", "what`s up","what is up")
-GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
-GREETING_INPUTS = ("hello", "hi")
-GREETING_RESPONSES = ["hi", "hey", "what's up", "Good afternoon", "hello", "It's nice meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
+GREETING_INPUTS = ("hello", "hi", "good afternoon", "greetings", "servus")
+GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!", "hi", "hey", "what's up", "Good afternoon", "hello", "It's nice to meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
 
 # Beleidigungen
-INDIGNITY_INPUTS = ("cunt", "robot", "bot", "nigga", "stupid", "asshole", "fuck")
-INDIGNITY_RESPONSES = ["You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
+INDIGNITY_INPUTS = ("motherfucker", "bitch", "cunt", "robot", "bot", "nigga", "stupid", "asshole", "fuck")
+INDIGNITY_RESPONSES = ["'You do know you just attacked a Gold Star family?","I’m speaking with myself, number one, because I have a very good brain and I’ve said a lot of things.","My fingers are long and beautiful, as, it has been well been documented, are various other parts of my body","Sorry losers and haters, but my I.Q. is one of the highest—and you all know it! Please don't feel so stupid or insecure. It's not your fault""You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
 
 # Komplimente
 COMPLIMENT_INPUTS = ("nice", "sexy", "clever", "humanoid", "talented", "trumpy")
-COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost so amazing as Trump"]
+COMPLIMENT_RESPONSES = ["Let me tell you, I'm a really smart guy.","thanks", "You too", "You're almost as amazing as Trump", "I think I am, actually humble. I think I'm much more humble than you would understand","The beauty of me is that I'm very rich"]
 
+# Reaktionen
+REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
+REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPONSES]
 
 #Jokes
 JOKES_INPUT=['North Koreans believe they live in the best country in the world because they\'re brainwashed by the government and the media.\nWhen every American knows that America is the best country in the world.', 
 'You enter the laboratory and see an experiment. How will you know which class is it?\nIf it\'s green and wiggles, it\'s biology.\nIf it stinks, it\'s chemistry.\nIf it doesn\'t work, it\'s physics.',
 'What\'s the difference between Americans and yogurt\?\n If you leave yogurt alone for 300 years\, it\'ll grow a culture.']
 
+# Help
+HELP_INPUTS = "help"
+HELP_RESPONSES = "I am very good at interacting with humans. You may ask for \"greetings\", \"swears\", \"compliments\" or \"games\" to get further information about my socialskills."
+
+# Help Begrüßungen
+GREETINGHELP_INPUTS = "greetings"
+GREETINGHELP_RESPONSES = "If you want me to greet you. First you will have to say something like \"Make America Great Again!!!\", \"Part of my beauty is that I am very rich!\", \"hi\", \"hey\", \"what's up\", \"Good afternoon\", \"hello\", \"It's nice to meet you\", \"Make America Great Again!!!\", \"Part of my beauty is that I am very rich!\""
+
+# Help Beleidigungen
+INDIGNITYHELP_INPUTS = "swears"
+INDIGNITYHELP_RESPONSES = "If you swear at me, I will fire back. Don't even think about saying something like: \"motherfucker\", \"bitch\", \"cunt\", \"robot\", \"bot\", \"nigga\", \"stupid\", \"asshole\" or \"fuck\""
+
+# Help Komplimente
+COMPLIMENTHELP_INPUTS = "compliments"
+COMPLIMENTHELP_RESPONSES = "I looove compliments. Please say something like \"nice\", \"sexy\", \"clever\", \"humanoid\", \"talented\" or \"trumpy\""
+
+# Help Spiele
+GAMEHELP_INPUTS = "games"
+GAMEHELP_RESPONSES = "I play a lot of games. To play with me, just type \"Prime Number Game\" or \"Wealth Game\""
+
+# Hilfsreaktionen
+HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, COMPLIMENTHELP_INPUTS, GAMEHELP_INPUTS]
+HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES, GAMEHELP_RESPONSES]
 
 # nltk.download('popular', quiet=True)
+nltk.download('popular', quiet=True)
 
 # # Für den ersten Start, ansonsten auskommentieren
-# nltk.download('punkt')
-# nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 # Corpus einlesen
@@ -66,43 +96,57 @@ word_tokens = nltk.word_tokenize(raw)
 lemmer = WordNetLemmatizer()
 def LemTokens(tokens):
     return [lemmer.lemmatize(token) for token in tokens]
+
 remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
+
 def LemNormalize(text):
     return LemTokens(nltk.word_tokenize(text.lower().translate(remove_punct_dict)))
 
 
 # Keyword Matching
 def trivia(sentence):
-    '''Wenn die Nutzereingabe eine Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
+    '''Wenn die Nutzereingabe in Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
     gleiches gilt für Beleidigungen'''
     for word in sentence.split():
-        if random.randint(1,10) <= 3:
-            return random.choice(["42","Satz von Gong","Möge Frau Karl... zurücktreten"])
-        if word.lower() in GREETING_INPUTS:
-            return random.choice(GREETING_RESPONSES)
-        if word.lower() in COMPLIMENT_INPUTS:
-            return random.choice(COMPLIMENT_RESPONSES)
-        if word.lower() in INDIGNITY_INPUTS:
-            return random.choice(INDIGNITY_RESPONSES)
+        for reaction in range(len(REACTION_INPUTS)):
+            if word.lower() in REACTION_INPUTS[reaction]:
+                return random.choice(REACTION_RESPONSES[reaction])
+        for Help in range(len(HELPREACTION_INPUTS)):
+            if word.lower() in HELPREACTION_INPUTS[Help]:
+                return HELPREACTION_RESPONSES[Help]
 
 # Antwort Erzeugung
 def response(user_response):
-    stop_words = get_stop_words('german')
+    stop_words = get_stop_words('english')
     sent_tokens.append(user_response)
-    TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words)
+    TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words,ngram_range=(1, 10))
     tfidf = TfidfVec.fit_transform(sent_tokens)
     vals = cosine_similarity(tfidf[-1], tfidf)
-    idx=vals.argsort()[0][-2]
+    i = random.randint(2,14)
+    idx=vals.argsort()[0][-i]
     flat = vals.flatten()
     flat.sort()
-    req_tfidf = flat[-2]
+    req_tfidf = flat[-i]
+    if req_tfidf == 0:
+        idx = vals.argsort()[0][-2]
+        req_tfidf = flat[-2]
     robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
     if(req_tfidf==0):
-        robo_response=robo_response+ "Wie bitte? Meintest du \'Satz von Gong\'?"
+
+        robo_response=robo_response+ "I beg your pardon, asshole? Did you mean \'Gong's theorem\'?"
         return robo_response
     else:
         robo_response = robo_response+sent_tokens[idx]
         return robo_response
+
+def colorprint(msg):
+    print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(msg, 'cyan'))
+
+def prime(number):
+    for i in range(2, int(math.sqrt(number))):
+        if number % i == 0:
+            return False
+    return True
 
 '''
 Ausgabe
@@ -111,11 +155,93 @@ Ausgabe
 flag=True
 clear = lambda: os.system('clear')
 clear()
-print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("\tHallo, meine Name ist TRUMP. Ich bin eine künstliche Dummheit. Frag' mich einfach was!\n\tWenn du aufhören willst, tippe 'Bye'.", 'cyan'))
+print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("\tHello, my name is TRUMP. I'm an artificial Stupidity. Just ask me and I will give you a trumpy response!\n\tTo quit just type 'Bye'.", 'cyan'))
 while(flag==True):
+    while isPlayingPrimesGame == True:
+        #number = random.randint(100, 1000) * 2 + 1
+        e = random.randint(0,1)
+        if e==0:
+            number = 101
+            while prime(number) or number % 3 == 0 or number % 5 == 0:
+                number = random.randint(100, 10000)* 2 + 1
+        else:
+            number = 100
+            while not prime(number):
+                number = random.randint(100, 10000)* 2 + 1
+
+        invalidInput = True
+        while invalidInput:
+            colorprint("Is " + str(number) + " a prime number?")
+            inputTxt = input()
+
+            if inputTxt in ["yes", "no", "exit", "bye"]:
+                invalidInput = False
+            else:
+                t = trivia(inputTxt)
+                if t != None: colorprint(trivia(inputTxt))
+                colorprint("C'mon, just say yes or no, it's not *that* hard...")
+                colorprint(random.choice(INDIGNITY_INPUTS))
+
+        if inputTxt == "exit":
+            isPlayingPrimesGame = False
+            colorprint("OK, I've stopped the prime number game.")
+        if inputTxt == "bye":
+            isPlayingPrimesGame = False    
+            colorprint("OK, I've stopped the prime number game. For quitting type 'bye' again.")
+        elif inputTxt == "yes" and prime(number) or inputTxt == "no" and not prime(number):
+            points += 1
+            colorprint("Correct! Your score is " + str(points) + ".")
+        else:
+            points -= 1
+            colorprint("Wrong! Your score is " + str(points) + ".")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+    
+    while isPlayingWealthGame == True:
+        Trumpmoney=random.randint(1000000,20000000)
+        colorprint("Guess how rich I am!")
+        inputTxt = input()
+
+        if inputTxt == "exit":
+            isPlayingWealthGame = False
+            colorprint("OK, I've stopped the wealth game. For quitting type 'bye' again.")
+            break
+        
+        if inputTxt == "bye":
+            isPlayingWealthGame = False
+            colorprint("OK, I've stopped the wealth game.")
+            break
+
+        if inputTxt == "" or inputTxt.isdigit() == False:
+            colorprint("Oh c'mon, just type in a number!")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+        elif int(inputTxt) < Trumpmoney:
+            points -= 1
+            colorprint("You mexicunt, it's much more! Your score is " + str(points) + ".")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+        elif int(inputTxt) > Trumpmoney:
+            points -= 1
+            colorprint("I had so much before the f***ing communists have stolen it! Your score is " + str(points) + ".")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+        else:
+            colorprint("You won! Please don't tell anyone that I don't pay any taxes! Your score was " + str(points) + ".")
+        
+
+        if points == 0:
+            colorprint("You're fired!")
+            isPlayingWealthGame = False
+            colorprint("You aren't playing the wealth game anymore.")
+
     user_response = input()
     user_response=user_response.lower()
-    if(user_response!='bye'):
+    if(user_response == "prime number game"):
+        colorprint("OK, let's play the prime number game!\nFor quitting type 'exit'.")
+        isPlayingPrimesGame = True
+        points = 0
+    elif(user_response == "wealth game"):
+        colorprint("OK, let's play the wealth game! You have 25 tries for guessing my wealth.\nFor quitting type 'exit'.")
+        isPlayingWealthGame = True
+        points = 25
+    elif(user_response!='bye'):
         if user_response == "satz von gong":
             cols = ['cyan', 'green', 'red', 'blue', 'yellow', 'grey', 'white', 'magenta']
             for i in range(random.randint(42,420)):
@@ -128,8 +254,11 @@ while(flag==True):
             print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(tmp, 'cyan'))
         else:
             print(colored("TRUMP: ", 'red', attrs=['bold']), end="")
-            print(colored(response(user_response), 'cyan'))
+            thisresponse = response(user_response)
+            print(colored(thisresponse, 'cyan'))
+            engine.say(thisresponse)
+            engine.runAndWait()
             sent_tokens.remove(user_response)
     else:
         flag=False
-        print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("Satz von Gong! Tschüss! Mach's gut. Satz von Gong!", 'cyan'))
+        print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("Bye! Make America great again!", 'cyan'))
