@@ -19,20 +19,20 @@ from nltk.stem import WordNetLemmatizer
 warnings.filterwarnings('ignore')
 
 # Begrüßungen
-GREETING_INPUTS = ("hello", "hi", "what`s up","what is up")
-GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
 GREETING_INPUTS = ("hello", "hi")
-GREETING_RESPONSES = ["hi", "hey", "what's up", "Good afternoon", "hello", "It's nice meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
+GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!", "hi", "hey", "what's up", "Good afternoon", "hello", "It's nice meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
 
 # Beleidigungen
-INDIGNITY_INPUTS = ("cunt", "robot", "bot", "nigga", "stupid", "asshole", "fuck")
+INDIGNITY_INPUTS = ("motherfucker", "bitch", "cunt", "robot", "bot", "nigga", "stupid", "asshole", "fuck")
 INDIGNITY_RESPONSES = ["You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
 
 # Komplimente
 COMPLIMENT_INPUTS = ("nice", "sexy", "clever", "humanoid", "talented", "trumpy")
-COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost so amazing as Trump"]
+COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost as amazing as Trump"]
 
-
+# Reaktionen
+REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
+REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPONSES]
 
 # nltk.download('popular', quiet=True)
 
@@ -75,12 +75,9 @@ def trivia(sentence):
     for word in sentence.split():
         # if random.randint(1,10) <= 3:
         #     return random.choice(["42","Satz von Gong","Möge Frau Karl... zurücktreten"])
-        if word.lower() in GREETING_INPUTS:
-            return random.choice(GREETING_RESPONSES)
-        if word.lower() in COMPLIMENT_INPUTS:
-            return random.choice(COMPLIMENT_RESPONSES)
-        if word.lower() in INDIGNITY_INPUTS:
-            return random.choice(INDIGNITY_RESPONSES)
+        for reaction in range(len(REACTION_INPUTS)):
+            if word.lower() in REACTION_INPUTS[reaction]:
+                return random.choice(REACTION_RESPONSES[reaction])
 
 # Antwort Erzeugung
 def response(user_response):
