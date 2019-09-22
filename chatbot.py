@@ -1,4 +1,4 @@
- '''
+'''
 CODY - TextBot
 A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019 
 based on an example script from Parul Pandey.
@@ -26,16 +26,16 @@ GREETING_RESPONSES = ["hi", "hey", "gott zum gruße", "tach", "hallo", "Es freut
 INDIGNITY_INPUTS = ("arsch", "sau", "depp", "doof", "dumm", "kacke")
 INDIGNITY_RESPONSES = ["Wir sollten nett zueinander sein.", "Wenn du meinst.", "Überleg mal, was du sagst.", "Das finde ich nicht nett.", "Du solltest sowas nicht sagen", "Ohje, du bist ja ein besonders netter Zeitgenosse..."]
 
-#nltk.download('popular', quiet=True) 
+nltk.download('popular', quiet=True)
 
 # Für den ersten Start, ansonsten auskommentieren
-#nltk.download('punkt') 
-#nltk.download('wordnet') 
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 # Corpus einlesen
-with open('chatbot_de.txt','r', encoding='utf8', errors ='ignore') as fin:
-    raw = fin.read().lower()
+with open('chatbot_de.txt','r', encoding='utf8', errors ='ignore') as bockwurst:
+    raw = bockwurst.read().lower()
 
 # Tokenisierung
 # sent_tokens konvertiert in Liste von Sätzen
@@ -54,9 +54,11 @@ def LemNormalize(text):
 
 # Keyword Matching
 def trivia(sentence):
-    '''Wenn die Nutzereingabe ien Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort, 
+    '''Wenn die Nutzereingabe ien Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
     gleiches gilt für Beleidigungen'''
     for word in sentence.split():
+        if random.randint(1,10) <= 3:
+            return random.choice(["42","Satz von Gong","Möge Frau Karl... zurücktreten"])
         if word.lower() in GREETING_INPUTS:
             return random.choice(GREETING_RESPONSES)
         if word.lower() in INDIGNITY_INPUTS:
@@ -76,7 +78,7 @@ def response(user_response):
     flat.sort()
     req_tfidf = flat[-2]
     if(req_tfidf==0):
-        robo_response=robo_response+ "Tut mir leid, ich verstehe dich nicht."
+        robo_response=robo_response+ "Wie bitte? Meintest du \'Satz von Gong\'?"
         return robo_response
     else:
         robo_response = robo_response+sent_tokens[idx]
@@ -94,18 +96,20 @@ while(flag==True):
     user_response = input()
     user_response=user_response.lower()
     if(user_response!='bye'):
+        if user_response == "satz von gong":
+            cols = ['cyan', 'green', 'red', 'blue', 'yellow', 'grey', 'white', 'magenta']
+            for i in range(random.randint(42,420)):
+                print(colored("Satz von Gong", cols[random.randint(0,len(cols)-1)]))
+        tmp = trivia(user_response)
         if(user_response=='danke dir' or user_response=='danke' ):
             flag=False
             print(colored("CODY: ", 'green', attrs=['bold']) + colored( "Gerne..", 'cyan'))
+        elif tmp!=None:
+            print(colored("CODY: ", 'green', attrs=['bold']) + colored(tmp, 'cyan'))
         else:
-            if(trivia(user_response)!=None):
-                print(colored("CODY: ", 'green', attrs=['bold']) + colored(trivia(user_response), 'cyan'))
-            else:
-                print(colored("CODY: ", 'green', attrs=['bold']), end="")
-                print(colored(response(user_response), 'cyan'))
-                sent_tokens.remove(user_response)
+            print(colored("CODY: ", 'green', attrs=['bold']), end="")
+            print(colored(response(user_response), 'cyan'))
+            sent_tokens.remove(user_response)
     else:
         flag=False
-        print(colored("CODY: ", 'green', attrs=['bold']) + colored("Tschüss! Mach's gut.", 'cyan'))    
-        
-        
+        print(colored("CODY: ", 'green', attrs=['bold']) + colored("Satz von Gong! Tschüss! Mach's gut. Satz von Gong!", 'cyan'))
