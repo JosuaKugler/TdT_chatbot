@@ -33,6 +33,11 @@ COMPLIMENT_INPUTS = ("nice", "sexy", "clever", "humanoid", "talented", "trumpy")
 COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost so amazing as Trump"]
 
 
+#Jokes
+JOKES_INPUT=['North Koreans believe they live in the best country in the world because they\'re brainwashed by the government and the media.\nWhen every American knows that America is the best country in the world.', 
+'You enter the laboratory and see an experiment. How will you know which class is it?\nIf it\'s green and wiggles, it\'s biology.\nIf it stinks, it\'s chemistry.\nIf it doesn\'t work, it\'s physics.',
+'What\'s the difference between Americans and yogurt\?\n If you leave yogurt alone for 300 years\, it\'ll grow a culture.']
+
 
 # nltk.download('popular', quiet=True)
 
@@ -68,7 +73,7 @@ def LemNormalize(text):
 
 # Keyword Matching
 def trivia(sentence):
-    '''Wenn die Nutzereingabe ien Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
+    '''Wenn die Nutzereingabe eine Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
     gleiches gilt für Beleidigungen'''
     for word in sentence.split():
         if random.randint(1,10) <= 3:
@@ -79,7 +84,6 @@ def trivia(sentence):
             return random.choice(COMPLIMENT_RESPONSES)
         if word.lower() in INDIGNITY_INPUTS:
             return random.choice(INDIGNITY_RESPONSES)
-
 
 # Antwort Erzeugung
 def response(user_response):
