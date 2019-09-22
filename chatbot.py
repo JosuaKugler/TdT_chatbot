@@ -15,14 +15,9 @@ from stop_words import get_stop_words
 from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
-<<<<<<< HEAD
 import math
 
 isPlayingPrimesGame = False
-=======
-import pyttsx3
-engine = pyttsx3.init()
->>>>>>> 520bead07527ca0f1efcf1284335e3bf705daf5f
 
 warnings.filterwarnings('ignore')
 
@@ -128,8 +123,17 @@ clear()
 print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("\tHello, my name is TRUMP. I'm an artificial Stupidity. Just ask me and I will give you a trumpy response!\n\tTo quit just type 'Bye'.", 'cyan'))
 while(flag==True):
     while isPlayingPrimesGame == True:
-        number = random.randint(100, 1000) * 2 + 1
-        
+        #number = random.randint(100, 1000) * 2 + 1
+        e = random.randint(0,1)
+        if e==0:
+            number = 101
+            while prime(number):
+                number = random.randint(100, 10000)* 2 + 1
+        else:
+            number = 100
+            while not prime(number):
+                number = random.randint(100, 10000)* 2 + 1
+
         invalidInput = True
         while invalidInput:
             colorprint("Is " + str(number) + " a prime number?")
@@ -138,7 +142,8 @@ while(flag==True):
             if inputTxt in ["yes", "no", "exit"]:
                 invalidInput = False
             else:
-                colorprint(trivia(inputTxt))
+                t = trivia(inputTxt)
+                if t != None: colorprint(trivia(inputTxt))
                 colorprint("C'mon, just say yes or no, it's not *that* hard...")
                 colorprint(random.choice(INDIGNITY_INPUTS))
         
