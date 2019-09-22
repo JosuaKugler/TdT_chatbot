@@ -15,6 +15,9 @@ from stop_words import get_stop_words
 from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
+import math
+
+isPlayingPrimesGame = False
 
 warnings.filterwarnings('ignore')
 
@@ -99,6 +102,15 @@ def response(user_response):
         robo_response = robo_response+sent_tokens[idx]
         return robo_response
 
+def colorprint(msg):
+    print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(msg, 'cyan'))
+
+def prime(number):
+    for i in range(2, int(math.sqrt(number))):
+        if number % i == 0:
+            return False
+    return True
+
 '''
 Ausgabe
 (Um die Konsolenausgabe übersichtlicher zu gestalten wird die Bibliothek termcolor benutzt)
@@ -108,9 +120,39 @@ clear = lambda: os.system('clear')
 clear()
 print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("\tHallo, meine Name ist TRUMP. Ich bin eine künstliche Dummheit. Frag' mich einfach was!\n\tWenn du aufhören willst, tippe 'Bye'.", 'cyan'))
 while(flag==True):
+    while isPlayingPrimesGame == True:
+        number = random.randint(100, 1000) * 2 + 1
+        
+        invalidInput = True
+        while invalidInput:
+            colorprint("Is " + str(number) + " a prime number?")
+            inputTxt = input()
+            
+            if inputTxt in ["yes", "no", "exit"]:
+                invalidInput = False
+            else:
+                colorprint(trivia(inputTxt))
+                colorprint("C'mon, just say yes or no, it's not *that* hard...")
+                colorprint(random.choice(INDIGNITY_INPUTS))
+        
+        if inputTxt == "exit":
+            isPlayingPrimesGame = False
+            colorprint("OK, I've stopped the prime number game.")
+        elif inputTxt == "yes" and prime(number) or inputTxt == "no" and not prime(number):
+            points += 1
+            colorprint("Correct! Your score is " + str(points) + ".")
+        else:
+            points -= 1
+            colorprint("Wrong! Your score is " + str(points) + ".")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+
     user_response = input()
     user_response=user_response.lower()
-    if(user_response!='bye'):
+    if(user_response == "prime number game"):
+        colorprint("OK, let's play the prime number game!")
+        isPlayingPrimesGame = True
+        points = 0
+    elif(user_response!='bye'):
         if user_response == "satz von gong":
             cols = ['cyan', 'green', 'red', 'blue', 'yellow', 'grey', 'white', 'magenta']
             for i in range(random.randint(42,420)):
