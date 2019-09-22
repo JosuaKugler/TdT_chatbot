@@ -1,5 +1,5 @@
 '''
-CODY - TextBot
+TRUMP - TextBot
 A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019 
 based on an example script from Parul Pandey.
 '''
@@ -19,24 +19,29 @@ from nltk.stem import WordNetLemmatizer
 warnings.filterwarnings('ignore')
 
 # Begrüßungen
-GREETING_INPUTS = ("hallo", "hi", "grüße", "tach", "was geht", "hey")
-GREETING_RESPONSES = ["hi", "hey", "gott zum gruße", "tach", "hallo", "Es freut mich, mit dir sprechen zu dürfen."]
+GREETING_INPUTS = ("hello", "hi", "whats`s up","what is up")
+GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
 
 # Beleidigungen
 INDIGNITY_INPUTS = ("arsch", "sau", "depp", "doof", "dumm", "kacke")
 INDIGNITY_RESPONSES = ["Wir sollten nett zueinander sein.", "Wenn du meinst.", "Überleg mal, was du sagst.", "Das finde ich nicht nett.", "Du solltest sowas nicht sagen", "Ohje, du bist ja ein besonders netter Zeitgenosse..."]
 
-nltk.download('popular', quiet=True)
+# nltk.download('popular', quiet=True)
 
-# Für den ersten Start, ansonsten auskommentieren
-nltk.download('punkt')
-nltk.download('wordnet')
+# # Für den ersten Start, ansonsten auskommentieren
+# nltk.download('punkt')
+# nltk.download('wordnet')
 
 
 # Corpus einlesen
-with open('chatbot_de.txt','r', encoding='utf8', errors ='ignore') as bockwurst:
-    raw = bockwurst.read().lower()
+# with open('chatbot_de.txt','r', encoding='utf8', errors ='ignore') as bockwurst:
+#     raw = bockwurst.read().lower()
 
+# with open("new.txt",'r', encoding='utf8', errors ='ignore') as tweet1file:
+#     raw = tweet1file.read().lower()
+
+with open(os.path.join("json", "trump_data_file.txt"),'r', encoding='utf8', errors ='ignore') as tweet2file:
+    raw = tweet2file.read().lower()
 # Tokenisierung
 # sent_tokens konvertiert in Liste von Sätzen
 sent_tokens = nltk.sent_tokenize(raw)
@@ -57,8 +62,8 @@ def trivia(sentence):
     '''Wenn die Nutzereingabe ien Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
     gleiches gilt für Beleidigungen'''
     for word in sentence.split():
-        if random.randint(1,10) <= 3:
-            return random.choice(["42","Satz von Gong","Möge Frau Karl... zurücktreten"])
+        # if random.randint(1,10) <= 3:
+        #     return random.choice(["42","Satz von Gong","Möge Frau Karl... zurücktreten"])
         if word.lower() in GREETING_INPUTS:
             return random.choice(GREETING_RESPONSES)
         if word.lower() in INDIGNITY_INPUTS:
@@ -68,7 +73,6 @@ def trivia(sentence):
 # Antwort Erzeugung
 def response(user_response):
     stop_words = get_stop_words('german')
-    robo_response=''
     sent_tokens.append(user_response)
     TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words)
     tfidf = TfidfVec.fit_transform(sent_tokens)
@@ -77,6 +81,7 @@ def response(user_response):
     flat = vals.flatten()
     flat.sort()
     req_tfidf = flat[-2]
+    robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
     if(req_tfidf==0):
         robo_response=robo_response+ "Wie bitte? Meintest du \'Satz von Gong\'?"
         return robo_response
@@ -91,7 +96,7 @@ Ausgabe
 flag=True
 clear = lambda: os.system('clear')
 clear()
-print(colored("CODY: ", 'green', attrs=['bold']) + colored("\tHallo, meine Name ist CODY. Ich weiß eine Menge über Chatbots. Frag' mich einfach!\n\tWenn du aufhören willst, tippe 'Bye'.", 'cyan'))
+print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("\tHallo, meine Name ist TRUMP. Ich bin eine künstliche Dummheit. Frag' mich einfach was!\n\tWenn du aufhören willst, tippe 'Bye'.", 'cyan'))
 while(flag==True):
     user_response = input()
     user_response=user_response.lower()
@@ -103,13 +108,13 @@ while(flag==True):
         tmp = trivia(user_response)
         if(user_response=='danke dir' or user_response=='danke' ):
             flag=False
-            print(colored("CODY: ", 'green', attrs=['bold']) + colored( "Gerne..", 'cyan'))
+            print(colored("TRUMP: ", 'red', attrs=['bold']) + colored( "Gerne..", 'cyan'))
         elif tmp!=None:
-            print(colored("CODY: ", 'green', attrs=['bold']) + colored(tmp, 'cyan'))
+            print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(tmp, 'cyan'))
         else:
-            print(colored("CODY: ", 'green', attrs=['bold']), end="")
+            print(colored("TRUMP: ", 'red', attrs=['bold']), end="")
             print(colored(response(user_response), 'cyan'))
             sent_tokens.remove(user_response)
     else:
         flag=False
-        print(colored("CODY: ", 'green', attrs=['bold']) + colored("Satz von Gong! Tschüss! Mach's gut. Satz von Gong!", 'cyan'))
+        print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("Satz von Gong! Tschüss! Mach's gut. Satz von Gong!", 'cyan'))
