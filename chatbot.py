@@ -17,7 +17,7 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 import math
 import pyttsx3
-engine = pyttsx3.init("dummy")
+engine = pyttsx3.init()
 isPlayingPrimesGame = False
 
 warnings.filterwarnings('ignore')
@@ -59,11 +59,11 @@ HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, C
 HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES]
 
 # nltk.download('popular', quiet=True)
-nltk.download('popular', quiet=True)
+#nltk.download('popular', quiet=True)
 
 # # Für den ersten Start, ansonsten auskommentieren
-nltk.download('punkt')
-nltk.download('wordnet')
+#nltk.download('punkt')
+#nltk.download('wordnet')
 
 
 # Corpus einlesen
@@ -120,7 +120,8 @@ def response(user_response):
     if req_tfidf == 0:
         idx = vals.argsort()[0][-2]
         req_tfidf = flat[-2]
-    robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
+    #robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
+    robo_response=""
     if(req_tfidf==0):
 
         robo_response=robo_response+ "I beg your pardon, asshole? Did you mean \'Gong's theorem\'?"
@@ -200,6 +201,8 @@ while(flag==True):
             print(colored("TRUMP: ", 'red', attrs=['bold']) + colored( "Gerne..", 'cyan'))
         elif tmp!=None:
             print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(tmp, 'cyan'))
+            engine.say(tmp)
+            engine.runAndWait()
         else:
             print(colored("TRUMP: ", 'red', attrs=['bold']), end="")
             thisresponse = response(user_response)
