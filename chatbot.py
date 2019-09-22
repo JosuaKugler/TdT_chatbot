@@ -23,16 +23,16 @@ isPlayingPrimesGame = False
 warnings.filterwarnings('ignore')
 
 # Begrüßungen
-GREETING_INPUTS = ("hello", "hi")
-GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!", "hi", "hey", "what's up", "Good afternoon", "hello", "It's nice meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
+GREETING_INPUTS = ("hello", "hi", "good afternoon", "greetings", "servus")
+GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!", "hi", "hey", "what's up", "Good afternoon", "hello", "It's nice to meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
 
 # Beleidigungen
 INDIGNITY_INPUTS = ("motherfucker", "bitch", "cunt", "robot", "bot", "nigga", "stupid", "asshole", "fuck")
-INDIGNITY_RESPONSES = ["You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
+INDIGNITY_RESPONSES = ["'You do know you just attacked a Gold Star family?","I’m speaking with myself, number one, because I have a very good brain and I’ve said a lot of things.","My fingers are long and beautiful, as, it has been well been documented, are various other parts of my body","Sorry losers and haters, but my I.Q. is one of the highest—and you all know it! Please don't feel so stupid or insecure. It's not your fault""You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
 
 # Komplimente
 COMPLIMENT_INPUTS = ("nice", "sexy", "clever", "humanoid", "talented", "trumpy")
-COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost as amazing as Trump"]
+COMPLIMENT_RESPONSES = ["Let me tell you, I'm a really smart guy.","thanks", "You too", "You're almost as amazing as Trump", "I think I am, actually humble. I think I'm much more humble than you would understand","The beauty of me is that I'm very rich"]
 
 # Reaktionen
 REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
