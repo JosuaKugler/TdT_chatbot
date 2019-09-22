@@ -86,11 +86,11 @@ def response(user_response):
     TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words,ngram_range=(1, 10))
     tfidf = TfidfVec.fit_transform(sent_tokens)
     vals = cosine_similarity(tfidf[-1], tfidf)
-
-    idx=vals.argsort()[0][-2]
+    i = random.randint(2,14)
+    idx=vals.argsort()[0][-i]
     flat = vals.flatten()
     flat.sort()
-    req_tfidf = flat[-2]
+    req_tfidf = flat[-i]
     robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
     if(req_tfidf==0):
         robo_response=robo_response+ "Wie bitte? Meintest du \'Satz von Gong\'?"
