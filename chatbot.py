@@ -16,7 +16,8 @@ from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
 import math
-
+import pyttsx3
+engine = pyttsx3.init("dummy")
 isPlayingPrimesGame = False
 
 warnings.filterwarnings('ignore')
@@ -37,7 +38,6 @@ COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost as amazing as Trump"
 REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
 REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPONSES]
 
-<<<<<<< HEAD
 # Help
 HELP_INPUTS = "help"
 HELP_RESPONSES = "I am very good at interacting with humans. You may ask for \"greetings\", \"swears\" or \"compliments\" to get further information about my socialskills."
@@ -59,9 +59,7 @@ HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, C
 HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES]
 
 # nltk.download('popular', quiet=True)
-=======
 nltk.download('popular', quiet=True)
->>>>>>> 088e136d31cc7dcb226fa7b5aa0e447c50be9314
 
 # # Für den ersten Start, ansonsten auskommentieren
 nltk.download('punkt')
@@ -103,12 +101,9 @@ def trivia(sentence):
         for reaction in range(len(REACTION_INPUTS)):
             if word.lower() in REACTION_INPUTS[reaction]:
                 return random.choice(REACTION_RESPONSES[reaction])
-<<<<<<< HEAD
         for Help in range(len(HELPREACTION_INPUTS)):
             if word.lower() in HELPREACTION_INPUTS[Help]:
                 return HELPREACTION_RESPONSES[Help]
-=======
->>>>>>> 088e136d31cc7dcb226fa7b5aa0e447c50be9314
 
 # Antwort Erzeugung
 def response(user_response):
