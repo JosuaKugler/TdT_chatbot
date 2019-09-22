@@ -16,28 +16,50 @@ from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
 import math
-
+import pyttsx3
+engine = pyttsx3.init("dummy")
 isPlayingPrimesGame = False
 isPlayingWealthGame = False
 
 warnings.filterwarnings('ignore')
 
 # Begrüßungen
-GREETING_INPUTS = ("hello", "hi")
-GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!", "hi", "hey", "what's up", "Good afternoon", "hello", "It's nice meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
+GREETING_INPUTS = ("hello", "hi", "good afternoon", "greetings", "servus")
+GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!", "hi", "hey", "what's up", "Good afternoon", "hello", "It's nice to meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
 
 # Beleidigungen
 INDIGNITY_INPUTS = ("motherfucker", "bitch", "cunt", "robot", "bot", "nigga", "stupid", "asshole", "fuck")
-INDIGNITY_RESPONSES = ["You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
+INDIGNITY_RESPONSES = ["'You do know you just attacked a Gold Star family?","I’m speaking with myself, number one, because I have a very good brain and I’ve said a lot of things.","My fingers are long and beautiful, as, it has been well been documented, are various other parts of my body","Sorry losers and haters, but my I.Q. is one of the highest—and you all know it! Please don't feel so stupid or insecure. It's not your fault""You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
 
 # Komplimente
 COMPLIMENT_INPUTS = ("nice", "sexy", "clever", "humanoid", "talented", "trumpy")
-COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost as amazing as Trump"]
+COMPLIMENT_RESPONSES = ["Let me tell you, I'm a really smart guy.","thanks", "You too", "You're almost as amazing as Trump", "I think I am, actually humble. I think I'm much more humble than you would understand","The beauty of me is that I'm very rich"]
 
 # Reaktionen
 REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
 REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPONSES]
 
+# Help
+HELP_INPUTS = "help"
+HELP_RESPONSES = "I am very good at interacting with humans. You may ask for \"greetings\", \"swears\" or \"compliments\" to get further information about my socialskills."
+
+# Help Begrüßungen
+GREETINGHELP_INPUTS = "greetings"
+GREETINGHELP_RESPONSES = "If you want me to greet you. First you will have to say something like \"Make America Great Again!!!\", \"Part of my beauty is that I am very rich!\", \"hi\", \"hey\", \"what's up\", \"Good afternoon\", \"hello\", \"It's nice to meet you\", \"Make America Great Again!!!\", \"Part of my beauty is that I am very rich!\""
+
+# Help Beleidigungen
+INDIGNITYHELP_INPUTS = "swears"
+INDIGNITYHELP_RESPONSES = "If you swear at me, I will fire back. Don't even think about saying something like: \"motherfucker\", \"bitch\", \"cunt\", \"robot\", \"bot\", \"nigga\", \"stupid\", \"asshole\" or \"fuck\""
+
+# Help Komplimente
+COMPLIMENTHELP_INPUTS = "compliments"
+COMPLIMENTHELP_RESPONSES = "I looove compliments. Please say something like \"nice\", \"sexy\", \"clever\", \"humanoid\", \"talented\" or \"trumpy\""
+
+# Hilfsreaktionen
+HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, COMPLIMENTHELP_INPUTS]
+HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES]
+
+# nltk.download('popular', quiet=True)
 nltk.download('popular', quiet=True)
 
 # # Für den ersten Start, ansonsten auskommentieren
@@ -74,12 +96,15 @@ def LemNormalize(text):
 
 # Keyword Matching
 def trivia(sentence):
-    '''Wenn die Nutzereingabe ien Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
+    '''Wenn die Nutzereingabe in Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
     gleiches gilt für Beleidigungen'''
     for word in sentence.split():
         for reaction in range(len(REACTION_INPUTS)):
             if word.lower() in REACTION_INPUTS[reaction]:
                 return random.choice(REACTION_RESPONSES[reaction])
+        for Help in range(len(HELPREACTION_INPUTS)):
+            if word.lower() in HELPREACTION_INPUTS[Help]:
+                return HELPREACTION_RESPONSES[Help]
 
 # Antwort Erzeugung
 def response(user_response):
