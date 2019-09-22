@@ -16,7 +16,7 @@ from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
 import pyttsx3
-engine = pyttsx3.init()
+engine = pyttsx3.init("dummy")
 
 warnings.filterwarnings('ignore')
 
@@ -36,11 +36,11 @@ COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost as amazing as Trump"
 REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
 REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPONSES]
 
-# nltk.download('popular', quiet=True)
+nltk.download('popular', quiet=True)
 
 # # Für den ersten Start, ansonsten auskommentieren
-# nltk.download('punkt')
-# nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 # Corpus einlesen
