@@ -19,7 +19,7 @@ from nltk.stem import WordNetLemmatizer
 warnings.filterwarnings('ignore')
 
 # Begrüßungen
-GREETING_INPUTS = ("hello", "hi", "whats`s up","what is up")
+GREETING_INPUTS = ("hello", "hi", "what`s up","what is up")
 GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
 
 # Beleidigungen
@@ -37,11 +37,12 @@ INDIGNITY_RESPONSES = ["Wir sollten nett zueinander sein.", "Wenn du meinst.", "
 # with open('chatbot_de.txt','r', encoding='utf8', errors ='ignore') as bockwurst:
 #     raw = bockwurst.read().lower()
 
-# with open("new.txt",'r', encoding='utf8', errors ='ignore') as tweet1file:
-#     raw = tweet1file.read().lower()
+with open("new.txt",'r', encoding='utf8', errors ='ignore') as tweet1file:
+    raw = tweet1file.read().lower()
 
 with open(os.path.join("json", "trump_data_file.txt"),'r', encoding='utf8', errors ='ignore') as tweet2file:
     raw = tweet2file.read().lower()
+
 # Tokenisierung
 # sent_tokens konvertiert in Liste von Sätzen
 sent_tokens = nltk.sent_tokenize(raw)
