@@ -127,9 +127,8 @@ def response1(user_response):
     if req_tfidf == 0:
         idx = vals.argsort()[0][-2]
         req_tfidf = flat[-2]
-    robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
+    robo_response=""
     if(req_tfidf==0):
-
         robo_response=robo_response+ "I beg your pardon, asshole? Did you mean \'Gong's theorem\'?"
         return robo_response
     else:
