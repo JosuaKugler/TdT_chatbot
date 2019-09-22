@@ -1,6 +1,6 @@
 '''
 TRUMP - TextBot
-A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019 
+A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019
 based on an example script from Parul Pandey.
 '''
 import io
@@ -15,9 +15,14 @@ from stop_words import get_stop_words
 from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
+<<<<<<< HEAD
 import math
 
 isPlayingPrimesGame = False
+=======
+import pyttsx3
+engine = pyttsx3.init()
+>>>>>>> 520bead07527ca0f1efcf1284335e3bf705daf5f
 
 warnings.filterwarnings('ignore')
 
@@ -76,26 +81,28 @@ def trivia(sentence):
     '''Wenn die Nutzereingabe ien Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
     gleiches gilt für Beleidigungen'''
     for word in sentence.split():
-        # if random.randint(1,10) <= 3:
-        #     return random.choice(["42","Satz von Gong","Möge Frau Karl... zurücktreten"])
         for reaction in range(len(REACTION_INPUTS)):
             if word.lower() in REACTION_INPUTS[reaction]:
                 return random.choice(REACTION_RESPONSES[reaction])
 
-
 # Antwort Erzeugung
 def response(user_response):
-    stop_words = get_stop_words('german')
+    stop_words = get_stop_words('english')
     sent_tokens.append(user_response)
-    TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words)
+    TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words,ngram_range=(1, 10))
     tfidf = TfidfVec.fit_transform(sent_tokens)
     vals = cosine_similarity(tfidf[-1], tfidf)
-    idx=vals.argsort()[0][-2]
+    i = random.randint(2,14)
+    idx=vals.argsort()[0][-i]
     flat = vals.flatten()
     flat.sort()
-    req_tfidf = flat[-2]
+    req_tfidf = flat[-i]
+    if req_tfidf == 0:
+        idx = vals.argsort()[0][-2]
+        req_tfidf = flat[-2]
     robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
     if(req_tfidf==0):
+
         robo_response=robo_response+ "Wie bitte? Meintest du \'Satz von Gong\'?"
         return robo_response
     else:
@@ -118,7 +125,7 @@ Ausgabe
 flag=True
 clear = lambda: os.system('clear')
 clear()
-print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("\tHallo, meine Name ist TRUMP. Ich bin eine künstliche Dummheit. Frag' mich einfach was!\n\tWenn du aufhören willst, tippe 'Bye'.", 'cyan'))
+print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("\tHello, my name is TRUMP. I'm an artificial Stupidity. Just ask me and I will give you a trumpy response!\n\tTo quit just type 'Bye'.", 'cyan'))
 while(flag==True):
     while isPlayingPrimesGame == True:
         number = random.randint(100, 1000) * 2 + 1
@@ -165,7 +172,10 @@ while(flag==True):
             print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(tmp, 'cyan'))
         else:
             print(colored("TRUMP: ", 'red', attrs=['bold']), end="")
-            print(colored(response(user_response), 'cyan'))
+            thisresponse = response(user_response)
+            print(colored(thisresponse, 'cyan'))
+            engine.say(thisresponse)
+            engine.runAndWait()
             sent_tokens.remove(user_response)
     else:
         flag=False
