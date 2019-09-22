@@ -37,11 +37,11 @@ COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost as amazing as Trump"
 REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
 REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPONSES]
 
-# nltk.download('popular', quiet=True)
+nltk.download('popular', quiet=True)
 
 # # Für den ersten Start, ansonsten auskommentieren
-# nltk.download('punkt')
-# nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 # Corpus einlesen
@@ -98,7 +98,7 @@ def response(user_response):
     robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
     if(req_tfidf==0):
 
-        robo_response=robo_response+ "Wie bitte? Meintest du \'Satz von Gong\'?"
+        robo_response=robo_response+ "I beg your pardon, asshole? Did you mean \'Gong's theorem\'?"
         return robo_response
     else:
         robo_response = robo_response+sent_tokens[idx]
@@ -138,7 +138,7 @@ while(flag==True):
         while invalidInput:
             colorprint("Is " + str(number) + " a prime number?")
             inputTxt = input()
-            
+
             if inputTxt in ["yes", "no", "exit"]:
                 invalidInput = False
             else:
@@ -146,7 +146,7 @@ while(flag==True):
                 if t != None: colorprint(trivia(inputTxt))
                 colorprint("C'mon, just say yes or no, it's not *that* hard...")
                 colorprint(random.choice(INDIGNITY_INPUTS))
-        
+
         if inputTxt == "exit":
             isPlayingPrimesGame = False
             colorprint("OK, I've stopped the prime number game.")
@@ -184,4 +184,4 @@ while(flag==True):
             sent_tokens.remove(user_response)
     else:
         flag=False
-        print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("Satz von Gong! Tschüss! Mach's gut. Satz von Gong!", 'cyan'))
+        print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("Bye! Make America great again!", 'cyan'))
