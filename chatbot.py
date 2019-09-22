@@ -19,13 +19,10 @@ from nltk.stem import WordNetLemmatizer
 warnings.filterwarnings('ignore')
 
 # Begrüßungen
-<<<<<<< HEAD
 GREETING_INPUTS = ("hello", "hi", "what`s up","what is up")
 GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
-=======
 GREETING_INPUTS = ("hello", "hi")
 GREETING_RESPONSES = ["hi", "hey", "what's up", "Good afternoon", "hello", "It's nice meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
->>>>>>> 546fddd8f2f22826734dccf4ee3b670fa67b4ac9
 
 # Beleidigungen
 INDIGNITY_INPUTS = ("cunt", "robot", "bot", "nigga", "stupid", "asshole", "fuck")
