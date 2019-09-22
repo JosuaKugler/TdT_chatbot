@@ -1,6 +1,6 @@
 '''
 TRUMP - TextBot
-A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019 
+A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019
 based on an example script from Parul Pandey.
 '''
 import io
@@ -15,6 +15,9 @@ from stop_words import get_stop_words
 from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
+import math
+
+isPlayingPrimesGame = False
 
 warnings.filterwarnings('ignore')
 
@@ -34,6 +37,7 @@ COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost as amazing as Trump"
 REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
 REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPONSES]
 
+<<<<<<< HEAD
 # Help
 HELP_INPUTS = "help"
 HELP_RESPONSES = "I am very good at interacting with humans. You may ask for \"greetings\", \"swears\" or \"compliments\" to get further information about my socialskills."
@@ -55,10 +59,13 @@ HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, C
 HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES]
 
 # nltk.download('popular', quiet=True)
+=======
+nltk.download('popular', quiet=True)
+>>>>>>> 088e136d31cc7dcb226fa7b5aa0e447c50be9314
 
 # # Für den ersten Start, ansonsten auskommentieren
-# nltk.download('punkt')
-# nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 # Corpus einlesen
@@ -93,33 +100,48 @@ def trivia(sentence):
     '''Wenn die Nutzereingabe in Begrüßung ist, Antwortet der Bot mit einer zufälligen Begrüßung als Antwort,
     gleiches gilt für Beleidigungen'''
     for word in sentence.split():
-        # if random.randint(1,10) <= 3:
-        #     return random.choice(["42","Satz von Gong","Möge Frau Karl... zurücktreten"])
         for reaction in range(len(REACTION_INPUTS)):
             if word.lower() in REACTION_INPUTS[reaction]:
                 return random.choice(REACTION_RESPONSES[reaction])
+<<<<<<< HEAD
         for Help in range(len(HELPREACTION_INPUTS)):
             if word.lower() in HELPREACTION_INPUTS[Help]:
                 return HELPREACTION_RESPONSES[Help]
+=======
+>>>>>>> 088e136d31cc7dcb226fa7b5aa0e447c50be9314
 
 # Antwort Erzeugung
 def response(user_response):
-    stop_words = get_stop_words('german')
+    stop_words = get_stop_words('english')
     sent_tokens.append(user_response)
-    TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words)
+    TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words,ngram_range=(1, 10))
     tfidf = TfidfVec.fit_transform(sent_tokens)
     vals = cosine_similarity(tfidf[-1], tfidf)
-    idx=vals.argsort()[0][-2]
+    i = random.randint(2,14)
+    idx=vals.argsort()[0][-i]
     flat = vals.flatten()
     flat.sort()
-    req_tfidf = flat[-2]
+    req_tfidf = flat[-i]
+    if req_tfidf == 0:
+        idx = vals.argsort()[0][-2]
+        req_tfidf = flat[-2]
     robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
     if(req_tfidf==0):
-        robo_response=robo_response+ "Wie bitte? Meintest du \'Satz von Gong\'?"
+
+        robo_response=robo_response+ "I beg your pardon, asshole? Did you mean \'Gong's theorem\'?"
         return robo_response
     else:
         robo_response = robo_response+sent_tokens[idx]
         return robo_response
+
+def colorprint(msg):
+    print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(msg, 'cyan'))
+
+def prime(number):
+    for i in range(2, int(math.sqrt(number))):
+        if number % i == 0:
+            return False
+    return True
 
 '''
 Ausgabe
@@ -128,11 +150,51 @@ Ausgabe
 flag=True
 clear = lambda: os.system('clear')
 clear()
-print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("\tHallo, meine Name ist TRUMP. Ich bin eine künstliche Dummheit. Frag' mich einfach was!\n\tWenn du aufhören willst, tippe 'Bye'.", 'cyan'))
+print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("\tHello, my name is TRUMP. I'm an artificial Stupidity. Just ask me and I will give you a trumpy response!\n\tTo quit just type 'Bye'.", 'cyan'))
 while(flag==True):
+    while isPlayingPrimesGame == True:
+        #number = random.randint(100, 1000) * 2 + 1
+        e = random.randint(0,1)
+        if e==0:
+            number = 101
+            while prime(number):
+                number = random.randint(100, 10000)* 2 + 1
+        else:
+            number = 100
+            while not prime(number):
+                number = random.randint(100, 10000)* 2 + 1
+
+        invalidInput = True
+        while invalidInput:
+            colorprint("Is " + str(number) + " a prime number?")
+            inputTxt = input()
+
+            if inputTxt in ["yes", "no", "exit"]:
+                invalidInput = False
+            else:
+                t = trivia(inputTxt)
+                if t != None: colorprint(trivia(inputTxt))
+                colorprint("C'mon, just say yes or no, it's not *that* hard...")
+                colorprint(random.choice(INDIGNITY_INPUTS))
+
+        if inputTxt == "exit":
+            isPlayingPrimesGame = False
+            colorprint("OK, I've stopped the prime number game.")
+        elif inputTxt == "yes" and prime(number) or inputTxt == "no" and not prime(number):
+            points += 1
+            colorprint("Correct! Your score is " + str(points) + ".")
+        else:
+            points -= 1
+            colorprint("Wrong! Your score is " + str(points) + ".")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+
     user_response = input()
     user_response=user_response.lower()
-    if(user_response!='bye'):
+    if(user_response == "prime number game"):
+        colorprint("OK, let's play the prime number game!")
+        isPlayingPrimesGame = True
+        points = 0
+    elif(user_response!='bye'):
         if user_response == "satz von gong":
             cols = ['cyan', 'green', 'red', 'blue', 'yellow', 'grey', 'white', 'magenta']
             for i in range(random.randint(42,420)):
@@ -145,8 +207,11 @@ while(flag==True):
             print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(tmp, 'cyan'))
         else:
             print(colored("TRUMP: ", 'red', attrs=['bold']), end="")
-            print(colored(response(user_response), 'cyan'))
+            thisresponse = response(user_response)
+            print(colored(thisresponse, 'cyan'))
+            engine.say(thisresponse)
+            engine.runAndWait()
             sent_tokens.remove(user_response)
     else:
         flag=False
-        print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("Satz von Gong! Tschüss! Mach's gut. Satz von Gong!", 'cyan'))
+        print(colored("TRUMP: ", 'red', attrs=['bold']) + colored("Bye! Make America great again!", 'cyan'))
