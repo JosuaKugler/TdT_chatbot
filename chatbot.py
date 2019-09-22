@@ -41,7 +41,7 @@ REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPON
 
 # Help
 HELP_INPUTS = "help"
-HELP_RESPONSES = "I am very good at interacting with humans. You may ask for \"greetings\", \"swears\" or \"compliments\" to get further information about my socialskills."
+HELP_RESPONSES = "I am very good at interacting with humans. You may ask for \"greetings\", \"swears\", \"compliments\" or \"games\" to get further information about my socialskills."
 
 # Help Begrüßungen
 GREETINGHELP_INPUTS = "greetings"
@@ -55,9 +55,13 @@ INDIGNITYHELP_RESPONSES = "If you swear at me, I will fire back. Don't even thin
 COMPLIMENTHELP_INPUTS = "compliments"
 COMPLIMENTHELP_RESPONSES = "I looove compliments. Please say something like \"nice\", \"sexy\", \"clever\", \"humanoid\", \"talented\" or \"trumpy\""
 
+# Help Spiele
+GAMEHELP_INPUTS = "games"
+GAMEHELP_RESPONSES = "I play a lot of games. To play with me, just type \"Prime Number Game\" or \"Wealth Game\""
+
 # Hilfsreaktionen
-HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, COMPLIMENTHELP_INPUTS]
-HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES]
+HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, COMPLIMENTHELP_INPUTS, GAMEHELP_INPUTS]
+HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES, GAMEHELP_RESPONSES]
 
 # nltk.download('popular', quiet=True)
 nltk.download('popular', quiet=True)
