@@ -1,6 +1,6 @@
 '''
 TRUMP - TextBot
-A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019 
+A simple NLTK Text Chatbot for the "Tag der Talente" workshop 2019
 based on an example script from Parul Pandey.
 '''
 import io
@@ -15,6 +15,8 @@ from stop_words import get_stop_words
 from termcolor import colored, cprint
 import nltk
 from nltk.stem import WordNetLemmatizer
+import pyttsx3
+engine = pyttsx3.init()
 
 warnings.filterwarnings('ignore')
 
@@ -84,7 +86,7 @@ def response(user_response):
     TfidfVec = TfidfVectorizer(tokenizer=LemNormalize, stop_words=stop_words,ngram_range=(1, 10))
     tfidf = TfidfVec.fit_transform(sent_tokens)
     vals = cosine_similarity(tfidf[-1], tfidf)
-    
+
     idx=vals.argsort()[0][-2]
     flat = vals.flatten()
     flat.sort()
@@ -121,7 +123,10 @@ while(flag==True):
             print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(tmp, 'cyan'))
         else:
             print(colored("TRUMP: ", 'red', attrs=['bold']), end="")
-            print(colored(response(user_response), 'cyan'))
+            thisresponse = response(user_response)
+            print(colored(thisresponse, 'cyan'))
+            engine.say(thisresponse)
+            engine.runAndWait()
             sent_tokens.remove(user_response)
     else:
         flag=False
