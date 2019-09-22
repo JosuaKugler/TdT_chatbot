@@ -196,7 +196,7 @@ while(flag==True):
             colorprint(random.choice(INDIGNITY_RESPONSES))
     
     while isPlayingWealthGame == True:
-        colorprint("Guess how rich I am!")
+        colorprint("Guess how rich I am! You have " + str(points) + " tries left.")
         inputTxt = input()
 
         if inputTxt == "exit":
@@ -209,20 +209,26 @@ while(flag==True):
             colorprint("OK, I've stopped the wealth game.")
             break
 
+        inputTxt = inputTxt.replace(" $", "").replace("$", "")
+
         if inputTxt == "" or inputTxt.isdigit() == False:
             colorprint("Oh c'mon, just type in a number!")
             colorprint(random.choice(INDIGNITY_RESPONSES))
-        elif int(inputTxt) < Trumpmoney:
-            points -= 1
-            colorprint("You mexicunt, it's much more! Your score is " + str(points) + ".")
-            colorprint(random.choice(INDIGNITY_RESPONSES))
-        elif int(inputTxt) > Trumpmoney:
-            points -= 1
-            colorprint("I had so much before the f***ing communists have stolen it! Your score is " + str(points) + ".")
-            colorprint(random.choice(INDIGNITY_RESPONSES))
         else:
-            colorprint("You won! Please don't tell anyone that I don't pay any taxes! Your score was " + str(points) + ".")
-        
+            diff = int(inputTxt) - Trumpmoney
+            if diff < -Trumpmoney/200:
+                points -= 1
+                colorprint("You mexicunt, it's much more!")
+                colorprint(random.choice(INDIGNITY_RESPONSES))
+            elif diff > Trumpmoney/200:
+                points -= 1
+                colorprint("I had so much before the f***ing communists have stolen it!")
+                colorprint(random.choice(INDIGNITY_RESPONSES))
+            else:
+                colorprint("You won! Please don't tell anyone that I don't pay any taxes!")
+                isPlayingWealthGame = False
+                colorprint("You aren't playing the wealth game anymore.")
+
 
         if points == 0:
             colorprint("You're fired!")
@@ -239,7 +245,7 @@ while(flag==True):
         colorprint("OK, let's play the wealth game! You have 25 tries for guessing my wealth in dollars.\nFor quitting type 'exit'.")
         isPlayingWealthGame = True
         Trumpmoney=random.randint(1000000,20000000)
-        points = 25
+        points = 15
     elif(user_response!='bye'):
         if user_response == "satz von gong":
             cols = ['cyan', 'green', 'red', 'blue', 'yellow', 'grey', 'white', 'magenta']
