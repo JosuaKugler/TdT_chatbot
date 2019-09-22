@@ -241,7 +241,7 @@ while(flag==True):
         Trumpmoney=random.randint(1000000,20000000)
         points = 25
     elif(user_response!='bye'):
-        if user_response == "satz von gong":
+        if user_response == "satz von gong" or user_response == "gong\'s theorem":
             cols = ['cyan', 'green', 'red', 'blue', 'yellow', 'grey', 'white', 'magenta']
             for i in range(random.randint(42,420)):
                 print(colored("Satz von Gong", cols[random.randint(0,len(cols)-1)]))
