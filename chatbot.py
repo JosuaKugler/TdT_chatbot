@@ -103,7 +103,8 @@ def trivia(sentence):
             if word.lower() in REACTION_INPUTS[reaction]:
                 return random.choice(REACTION_RESPONSES[reaction])
         for Help in range(len(HELPREACTION_INPUTS)):
-            if word.lower() in HELPREACTION_INPUTS[Help]:
+            if word.lower() in HELPREACTION_INPUTS[Help] and word.lower() != "i":
+                print("HELP WORD",word)
                 return HELPREACTION_RESPONSES[Help]
 
 # Antwort Erzeugung
