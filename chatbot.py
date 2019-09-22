@@ -19,12 +19,23 @@ from nltk.stem import WordNetLemmatizer
 warnings.filterwarnings('ignore')
 
 # Begrüßungen
+<<<<<<< HEAD
 GREETING_INPUTS = ("hello", "hi", "what`s up","what is up")
 GREETING_RESPONSES = ["Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
+=======
+GREETING_INPUTS = ("hello", "hi")
+GREETING_RESPONSES = ["hi", "hey", "what's up", "Good afternoon", "hello", "It's nice meet you", "Make America Great Again!!!", "Part of my beauty is that I am very rich!"]
+>>>>>>> 546fddd8f2f22826734dccf4ee3b670fa67b4ac9
 
 # Beleidigungen
-INDIGNITY_INPUTS = ("arsch", "sau", "depp", "doof", "dumm", "kacke")
-INDIGNITY_RESPONSES = ["Wir sollten nett zueinander sein.", "Wenn du meinst.", "Überleg mal, was du sagst.", "Das finde ich nicht nett.", "Du solltest sowas nicht sagen", "Ohje, du bist ja ein besonders netter Zeitgenosse..."]
+INDIGNITY_INPUTS = ("cunt", "robot", "bot", "nigga", "stupid", "asshole", "fuck")
+INDIGNITY_RESPONSES = ["You're fired", "We gonna build a wall around you", "Fake News", "You are like Obama", "Mexicunt", "Stupid European", "Bitch"]
+
+# Komplimente
+COMPLIMENT_INPUTS = ("nice", "sexy", "clever", "humanoid", "talented", "trumpy")
+COMPLIMENT_RESPONSES = ["thanks", "You too", "You're almost so amazing as Trump"]
+
+
 
 # nltk.download('popular', quiet=True)
 
@@ -67,6 +78,8 @@ def trivia(sentence):
         #     return random.choice(["42","Satz von Gong","Möge Frau Karl... zurücktreten"])
         if word.lower() in GREETING_INPUTS:
             return random.choice(GREETING_RESPONSES)
+        if word.lower() in COMPLIMENT_INPUTS:
+            return random.choice(COMPLIMENT_RESPONSES)
         if word.lower() in INDIGNITY_INPUTS:
             return random.choice(INDIGNITY_RESPONSES)
 
