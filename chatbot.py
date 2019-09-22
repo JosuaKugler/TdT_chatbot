@@ -17,7 +17,7 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 import math
 import pyttsx3
-engine = pyttsx3.init("dummy")
+engine = pyttsx3.init()
 isPlayingPrimesGame = False
 isPlayingWealthGame = False
 
@@ -38,11 +38,6 @@ COMPLIMENT_RESPONSES = ["Let me tell you, I'm a really smart guy.","thanks", "Yo
 # Reaktionen
 REACTION_INPUTS = [GREETING_INPUTS, INDIGNITY_INPUTS, COMPLIMENT_INPUTS]
 REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPONSES]
-
-#Jokes
-JOKES_INPUT=['North Koreans believe they live in the best country in the world because they\'re brainwashed by the government and the media.\nWhen every American knows that America is the best country in the world.', 
-'You enter the laboratory and see an experiment. How will you know which class is it?\nIf it\'s green and wiggles, it\'s biology.\nIf it stinks, it\'s chemistry.\nIf it doesn\'t work, it\'s physics.',
-'What\'s the difference between Americans and yogurt\?\n If you leave yogurt alone for 300 years\, it\'ll grow a culture.']
 
 # Help
 HELP_INPUTS = "help"
@@ -69,11 +64,11 @@ HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, C
 HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES, GAMEHELP_RESPONSES]
 
 # nltk.download('popular', quiet=True)
-nltk.download('popular', quiet=True)
+#nltk.download('popular', quiet=True)
 
 # # Für den ersten Start, ansonsten auskommentieren
-nltk.download('punkt')
-nltk.download('wordnet')
+#nltk.download('punkt')
+#nltk.download('wordnet')
 
 
 # Corpus einlesen
@@ -131,7 +126,8 @@ def response(user_response):
     if req_tfidf == 0:
         idx = vals.argsort()[0][-2]
         req_tfidf = flat[-2]
-    robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
+    #robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
+    robo_response=""
     if(req_tfidf==0):
 
         robo_response=robo_response+ "I beg your pardon, asshole? Did you mean \'Gong's theorem\'?"
@@ -253,6 +249,8 @@ while(flag==True):
             print(colored("TRUMP: ", 'red', attrs=['bold']) + colored( "Gerne..", 'cyan'))
         elif tmp!=None:
             print(colored("TRUMP: ", 'red', attrs=['bold']) + colored(tmp, 'cyan'))
+            engine.say(tmp)
+            engine.runAndWait()
         else:
             print(colored("TRUMP: ", 'red', attrs=['bold']), end="")
             thisresponse = response(user_response)

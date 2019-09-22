@@ -1,0 +1,4 @@
+numpy
+python3-tk
+scikit-learn
+pyttsx3
