@@ -96,7 +96,7 @@ while(flag==True):
     if(user_response!='bye'):
         if(user_response=='danke dir' or user_response=='danke' ):
             flag=False
-            print(colored("CODY: ", 'green', attrs=['bold']) + colored( "Gerne..", 'cyan'))
+            print(colored("CODY: ", 'green', attrs=['bold']) + colored( "Satz von Gong", 'cyan'))
         else:
             if(trivia(user_response)!=None):
                 print(colored("CODY: ", 'green', attrs=['bold']) + colored(trivia(user_response), 'cyan'))
@@ -106,6 +106,4 @@ while(flag==True):
                 sent_tokens.remove(user_response)
     else:
         flag=False
-        print(colored("CODY: ", 'green', attrs=['bold']) + colored("Tschüss! Mach's gut.", 'cyan'))    
-        
-        
+        print(colored("CODY: ", 'green', attrs=['bold']) + colored("Tschüss! Mach's gut.", 'cyan'))
