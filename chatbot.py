@@ -91,8 +91,12 @@ def response(user_response):
     flat = vals.flatten()
     flat.sort()
     req_tfidf = flat[-i]
+    if req_tfidf == 0:
+        idx = vals.argsort()[0][-2]
+        req_tfidf = flat[-2]
     robo_response="TFIDX["+str(round(req_tfidf,2))+"]"
     if(req_tfidf==0):
+
         robo_response=robo_response+ "Wie bitte? Meintest du \'Satz von Gong\'?"
         return robo_response
     else:
