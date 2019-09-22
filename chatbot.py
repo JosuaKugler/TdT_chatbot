@@ -21,12 +21,8 @@ import math
 isPlayingPrimesGame = False
 =======
 import pyttsx3
-<<<<<<< HEAD
 engine = pyttsx3.init("dummy")
-=======
-engine = pyttsx3.init()
->>>>>>> 520bead07527ca0f1efcf1284335e3bf705daf5f
->>>>>>> b0130472134d1fb56bd1daf4f3d74169fe24d0f6
+
 
 warnings.filterwarnings('ignore')
 
