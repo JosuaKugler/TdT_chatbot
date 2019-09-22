@@ -19,6 +19,7 @@ import math
 import pyttsx3
 engine = pyttsx3.init()
 isPlayingPrimesGame = False
+isPlayingWealthGame = False
 
 warnings.filterwarnings('ignore')
 
@@ -40,7 +41,7 @@ REACTION_RESPONSES = [GREETING_RESPONSES, INDIGNITY_RESPONSES, COMPLIMENT_RESPON
 
 # Help
 HELP_INPUTS = "help"
-HELP_RESPONSES = "I am very good at interacting with humans. You may ask for \"greetings\", \"swears\" or \"compliments\" to get further information about my socialskills."
+HELP_RESPONSES = "I am very good at interacting with humans. You may ask for \"greetings\", \"swears\", \"compliments\" or \"games\" to get further information about my socialskills."
 
 # Help Begrüßungen
 GREETINGHELP_INPUTS = "greetings"
@@ -54,9 +55,13 @@ INDIGNITYHELP_RESPONSES = "If you swear at me, I will fire back. Don't even thin
 COMPLIMENTHELP_INPUTS = "compliments"
 COMPLIMENTHELP_RESPONSES = "I looove compliments. Please say something like \"nice\", \"sexy\", \"clever\", \"humanoid\", \"talented\" or \"trumpy\""
 
+# Help Spiele
+GAMEHELP_INPUTS = "games"
+GAMEHELP_RESPONSES = "I play a lot of games. To play with me, just type \"Prime Number Game\" or \"Wealth Game\""
+
 # Hilfsreaktionen
-HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, COMPLIMENTHELP_INPUTS]
-HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES]
+HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, COMPLIMENTHELP_INPUTS, GAMEHELP_INPUTS]
+HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES, GAMEHELP_RESPONSES]
 
 # nltk.download('popular', quiet=True)
 #nltk.download('popular', quiet=True)
@@ -102,7 +107,8 @@ def trivia(sentence):
             if word.lower() in REACTION_INPUTS[reaction]:
                 return random.choice(REACTION_RESPONSES[reaction])
         for Help in range(len(HELPREACTION_INPUTS)):
-            if word.lower() in HELPREACTION_INPUTS[Help]:
+            if word.lower() in HELPREACTION_INPUTS[Help] and word.lower() != "i":
+                print("HELP WORD",word)
                 return HELPREACTION_RESPONSES[Help]
 
 # Antwort Erzeugung
@@ -153,7 +159,7 @@ while(flag==True):
         e = random.randint(0,1)
         if e==0:
             number = 101
-            while prime(number):
+            while prime(number) or number % 3 == 0 or number % 5 == 0:
                 number = random.randint(100, 10000)* 2 + 1
         else:
             number = 100
@@ -165,7 +171,7 @@ while(flag==True):
             colorprint("Is " + str(number) + " a prime number?")
             inputTxt = input()
 
-            if inputTxt in ["yes", "no", "exit"]:
+            if inputTxt in ["yes", "no", "exit", "bye"]:
                 invalidInput = False
             else:
                 t = trivia(inputTxt)
@@ -176,6 +182,9 @@ while(flag==True):
         if inputTxt == "exit":
             isPlayingPrimesGame = False
             colorprint("OK, I've stopped the prime number game.")
+        if inputTxt == "bye":
+            isPlayingPrimesGame = False    
+            colorprint("OK, I've stopped the prime number game. For quitting type 'bye' again.")
         elif inputTxt == "yes" and prime(number) or inputTxt == "no" and not prime(number):
             points += 1
             colorprint("Correct! Your score is " + str(points) + ".")
@@ -183,13 +192,52 @@ while(flag==True):
             points -= 1
             colorprint("Wrong! Your score is " + str(points) + ".")
             colorprint(random.choice(INDIGNITY_RESPONSES))
+    
+    while isPlayingWealthGame == True:
+        Trumpmoney=random.randint(1000000,20000000)
+        colorprint("Guess how rich I am!")
+        inputTxt = input()
+
+        if inputTxt == "exit":
+            isPlayingWealthGame = False
+            colorprint("OK, I've stopped the wealth game. For quitting type 'bye' again.")
+            break
+        
+        if inputTxt == "bye":
+            isPlayingWealthGame = False
+            colorprint("OK, I've stopped the wealth game.")
+            break
+
+        if inputTxt == "" or inputTxt.isdigit() == False:
+            colorprint("Oh c'mon, just type in a number!")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+        elif int(inputTxt) < Trumpmoney:
+            points -= 1
+            colorprint("You mexicunt, it's much more! Your score is " + str(points) + ".")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+        elif int(inputTxt) > Trumpmoney:
+            points -= 1
+            colorprint("I had so much before the f***ing communists have stolen it! Your score is " + str(points) + ".")
+            colorprint(random.choice(INDIGNITY_RESPONSES))
+        else:
+            colorprint("You won! Please don't tell anyone that I don't pay any taxes! Your score was " + str(points) + ".")
+        
+
+        if points == 0:
+            colorprint("You're fired!")
+            isPlayingWealthGame = False
+            colorprint("You aren't playing the wealth game anymore.")
 
     user_response = input()
     user_response=user_response.lower()
     if(user_response == "prime number game"):
-        colorprint("OK, let's play the prime number game!")
+        colorprint("OK, let's play the prime number game!\nFor quitting type 'exit'.")
         isPlayingPrimesGame = True
         points = 0
+    elif(user_response == "wealth game"):
+        colorprint("OK, let's play the wealth game! You have 25 tries for guessing my wealth.\nFor quitting type 'exit'.")
+        isPlayingWealthGame = True
+        points = 25
     elif(user_response!='bye'):
         if user_response == "satz von gong":
             cols = ['cyan', 'green', 'red', 'blue', 'yellow', 'grey', 'white', 'magenta']
