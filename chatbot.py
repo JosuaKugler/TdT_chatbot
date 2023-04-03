@@ -67,8 +67,8 @@ HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_
 #nltk.download('popular', quiet=True)
 
 # # Für den ersten Start, ansonsten auskommentieren
-#nltk.download('punkt')
-#nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 # Corpus einlesen

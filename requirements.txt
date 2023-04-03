@@ -1,4 +1,6 @@
 numpy
-python3-tk
 scikit-learn
+stop_words
+termcolor
+nltk
 pyttsx3
