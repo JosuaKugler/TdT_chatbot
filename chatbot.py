@@ -63,12 +63,12 @@ GAMEHELP_RESPONSES = "I play a lot of games. To play with me, just type \"Prime 
 HELPREACTION_INPUTS = [HELP_INPUTS, GREETINGHELP_INPUTS, INDIGNITYHELP_INPUTS, COMPLIMENTHELP_INPUTS, GAMEHELP_INPUTS]
 HELPREACTION_RESPONSES = [HELP_RESPONSES, GREETINGHELP_RESPONSES, INDIGNITYHELP_RESPONSES, COMPLIMENTHELP_RESPONSES, GAMEHELP_RESPONSES]
 
-# nltk.download('popular', quiet=True)
+#nltk.download('popular', quiet=True)
 #nltk.download('popular', quiet=True)
 
 # # Für den ersten Start, ansonsten auskommentieren
-nltk.download('punkt')
-nltk.download('wordnet')
+#nltk.download('punkt')
+#nltk.download('wordnet')
 
 
 # Corpus einlesen
@@ -83,9 +83,14 @@ with open(os.path.join("json", "trump_data_file.txt"),'r', encoding='utf8', erro
 
 # Tokenisierung
 # sent_tokens konvertiert in Liste von Sätzen
-sent_tokens = nltk.sent_tokenize(raw)
-# word_tokens konvertiert in Liste von Worten (Wird nicht verwendet.)
-word_tokens = nltk.word_tokenize(raw)
+try:
+    sent_tokens = nltk.sent_tokenize(raw)
+    # word_tokens konvertiert in Liste von Worten (Wird nicht verwendet.)
+    word_tokens = nltk.word_tokenize(raw)
+except LookupError:
+    nltk.download('punkt')
+    nltk.download('wordnet')
+
 
 # Vorverarbeitung (Preprocessing)
 lemmer = WordNetLemmatizer()
